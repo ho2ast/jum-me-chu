@@ -1,6 +1,7 @@
 package com.ho2ast.jummechu.api;
 
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,6 +44,7 @@ public class RecommendMenuController {
         List documents = (List) block.get("documents");
 
         int listNum = new Random().nextInt(15);
+        Collections.shuffle(documents);
         Map map = (Map) documents.get(listNum);
 
         // webhook return template
@@ -62,7 +64,7 @@ public class RecommendMenuController {
 
         String body = new Gson().toJson(result);
         WebClient.builder()
-                .baseUrl("잔디 웹훅 키")
+                .baseUrl("잔디 웹훅 URL")
                 .defaultHeader(HttpHeaders.ACCEPT, "application/vnd.tosslab.jandi-v2+json")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, "application/json")
                 .build()
